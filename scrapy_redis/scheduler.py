@@ -13,7 +13,7 @@ IDLE_BEFORE_CLOSE = 0
 
 
 class Scheduler(object):
-    """Redis-based scheduler"""
+    """基于redis的scheduler"""
 
     def __init__(self, server, persist, queue_key, queue_cls, dupefilter_key, idle_before_close):
         """Initialize scheduler.
