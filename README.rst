@@ -5,12 +5,11 @@ This project attempts to provide Redis-backed components for Scrapy.
 
 Features:
 
-* Distributed crawling/scraping
-    You can start multiple spider instances that share a single redis queue.
-    Best suitable for broad multi-domain crawls.
-* Distributed post-processing
-    Scraped items gets pushed into a redis queued meaning that you can start as
-    many as needed post-processing processes sharing the items queue.
+* 分布式爬取/抓取
+    可以同时实例化多个spider，它们使用同一个redis队列（request queue）。
+    适合广度多域名的抓取。
+* 分布式post-processing（处理得到的item）
+    可以将抓取的item放进redis队列中，这样你就可以在需要的时候在item队列中进行处理。
 
 Requirements:
 
@@ -40,7 +39,7 @@ From `github`::
   $ python setup.py install
 
 
-Usage
+使用
 -----
 
 Enable the components in your `settings.py`:
@@ -89,29 +88,28 @@ Enable the components in your `settings.py`:
 Running the example project
 ---------------------------
 
-This example illustrates how to share a spider's requests queue
-across multiple spider instances, highly suitable for broad crawls.
+这个例子所表现的是多个crawler怎样使用一个spider的request queue。
 
-1. Setup scrapy_redis package in your PYTHONPATH
+1. 安装scrapy-redis。
 
-2. Run the crawler for first time then stop it::
+2. 运行crawler然后停止::
 
     $ cd example-project
     $ scrapy crawl dmoz
     ... [dmoz] ...
     ^C
 
-3. Run the crawler again to resume stopped crawling::
+3. 再次运行crawler从上次停止位置恢复::
 
     $ scrapy crawl dmoz
     ... [dmoz] DEBUG: Resuming crawl (9019 requests scheduled)
 
-4. Start one or more additional scrapy crawlers::
+4. 运行更多的scrapy crawlers::
 
     $ scrapy crawl dmoz
     ... [dmoz] DEBUG: Resuming crawl (8712 requests scheduled)
 
-5. Start one or more post-processing workers::
+5. 运行一个或更多的post-processing workers::
 
     $ python process_items.py
     Processing: Kilani Giftware (http://www.dmoz.org/Computers/Shopping/Gifts/)
@@ -119,13 +117,12 @@ across multiple spider instances, highly suitable for broad crawls.
     ...
 
 
-Feeding a Spider from Redis
+Feeding a spider from Redis
 ---------------------------
 
-The class `scrapy_redis.spiders.RedisSpider` enables a spider to read the
-urls from redis. The urls in the redis queue will be processed one
-after another, if the first request yields more requests, the spider
-will process those requests before fetching another url from redis.
+`scrapy_redis.spiders.RedisSpider`类可以使spider从redis中读取urls，
+redis queue中的urls会被依次处理，如果第一个request yeilds更多的request，
+那么spider会首先处理这些request,然后在从redis fetch 另外的url。
 
 For example, create a file `myspider.py` with the code below:
 
@@ -141,9 +138,9 @@ For example, create a file `myspider.py` with the code below:
             pass
 
 
-Then:
+然后:
 
-1. run the spider::
+1. 运行spider::
 
     scrapy runspider myspider.py
 
