@@ -1,12 +1,4 @@
-# Scrapy settings for example project
-#
-# For simplicity, this file contains only the most important settings by
-# default. All the other settings are documented here:
-#
-#     http://doc.scrapy.org/topics/settings.html
-#
-
-# -*-coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 #整体分析：在配置文件中的两部分(1)scrapy_redis.scheduler.Scheduler和
 #（2）scrapy_redis.pipelines.RedisPipeline实现分布式功能。
@@ -32,7 +24,7 @@ SCHEDULER_PERSIST = True
 #其中第一个是自己实现的pipeline,第二个是scrapy_redis实现的pipeline
 
 #而后者对item的处理是：“将serialized item数据push进一个redis list/queue中”
-ITEM_PIPELINES = [
+ITEM_PIPELINES = {
     'example.pipelines.ExamplePipeline',
     'scrapy_redis.pipelines.RedisPipeline',
-]
+    }

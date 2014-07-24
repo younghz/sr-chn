@@ -1,4 +1,4 @@
-# -*-coding:utf-8-*-
+#-*-coding:utf-8-*-
 
 from scrapy_redis.spiders import RedisMixin
 
