@@ -1,3 +1,5 @@
+#-*-coding:utf-8-*-
+
 import time
 import connection
 
@@ -6,16 +8,16 @@ from scrapy.utils.request import request_fingerprint
 
 
 class RFPDupeFilter(BaseDupeFilter):
-    """Redis-based request duplication filter"""
+    """基于redis的request去重过滤器"""
 
     def __init__(self, server, key):
-        """Initialize duplication filter
+        """初始化 duplication filter
 
         Parameters
         ----------
         server : Redis instance
         key : str
-            Where to store fingerprints
+            存储fingerprints
         """
         self.server = server
         self.key = key
@@ -33,7 +35,12 @@ class RFPDupeFilter(BaseDupeFilter):
     def from_crawler(cls, crawler):
         return cls.from_settings(crawler.settings)
 
+    #使用set结构存储request的fingerprint,利用set结构的value唯一不能重复的特性，使相同request的fingerprint无法插入到其中
+    #从而达到去重过滤的效果
+
+    #插入成功返回0,相当与not seen
     def request_seen(self, request):
+        #来自scrapy.utils.request的request_fingerprint函数接受request参数并返回fingerprint
         fp = request_fingerprint(request)
         added = self.server.sadd(self.key, fp)
         return not added
@@ -43,5 +50,5 @@ class RFPDupeFilter(BaseDupeFilter):
         self.clear()
 
     def clear(self):
-        """Clears fingerprints data"""
+        """清空redis key中存储的 fingerprints data"""
         self.server.delete(self.key)

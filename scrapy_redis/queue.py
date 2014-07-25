@@ -1,3 +1,5 @@
+#-*-coding:utf-8-*-
+
 from scrapy.utils.reqser import request_to_dict, request_from_dict
 
 try:
@@ -21,6 +23,7 @@ class Base(object):
         self.spider = spider
         self.key = key % {'spider': spider.name}
 
+    #所有的request在进入queue之前都进行encode,弹出之后decode
     def _encode_request(self, request):
         """Encode a request object"""
         return pickle.dumps(request_to_dict(request, self.spider), protocol=-1)
@@ -47,7 +50,10 @@ class Base(object):
 
 
 class SpiderQueue(Base):
-    """Per-spider FIFO queue"""
+    """Per-spider FIFO queue
+
+    使用的是redis中的list实现
+    """
 
     def __len__(self):
         """Return the length of the queue"""
@@ -70,7 +76,10 @@ class SpiderQueue(Base):
 
 
 class SpiderPriorityQueue(Base):
-    """Per-spider priority queue abstraction using redis' sorted set"""
+    """Per-spider priority queue abstraction using redis' sorted set。
+
+    使用redis中zset实现。
+    """
 
     def __len__(self):
         """Return the length of the queue"""
@@ -97,7 +106,10 @@ class SpiderPriorityQueue(Base):
 
 
 class SpiderStack(Base):
-    """Per-spider stack"""
+    """Per-spider stack.
+
+    这种就是LIFO。
+    """
 
     def __len__(self):
         """Return the length of the stack"""
@@ -110,6 +122,7 @@ class SpiderStack(Base):
     def pop(self, timeout=0):
         """Pop a request"""
         if timeout > 0:
+            #使用的是blpop，阻塞式弹出。
             data = self.server.blpop(self.key, timeout)
             if isinstance(data, tuple):
                 data = data[1]
