@@ -1,3 +1,11 @@
+说在前面
+========
+
+此repository fork自scrapy-redis，在此基础上，做了如下更改：
+
+* 用法的翻译/代码原理研究/注释翻译。
+* 重写的部分代码，与更新版本的scrapy兼容。
+
 Redis-based components for Scrapy
 =================================
 
