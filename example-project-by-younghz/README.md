@@ -1,5 +1,5 @@
 ## 一 Scrapy-redis实现分布式爬取分析
-所谓的scrapy-redis实际上就是scrapy+redis其中对redis的操作采用redis-py客户端。这里的redis的作用以及在scrapy-redis的方向我在自己fork的repository（链接：[https://github.com/younghz/scrapy-redis](https://github.com/younghz/scrapy-redis)） 已经做了翻译（README.rst）。    
+所谓的scrapy-redis实际上就是scrapy+redis，其中对redis的操作采用redis-py客户端。这里的redis的作用以及scrapy-redis的在自己fork的repository 已经做了解释或翻译（README.rst）。    
 在前面一篇文章中我已经借助两篇相关文章分析了使用redis实现爬虫分布式的中心。归结起来就是：所有爬虫获取到的url(request)都放到一个redis queue中，并且所有爬虫都从单个redis queue中获取request(url)。    
 scrapy-redis已经很长时间没有更新，如何是它兼容更新版本的scrapy我在博文（链接：[http://blog.csdn.net/u012150179/article/details/38087661](http://blog.csdn.net/u012150179/article/details/38087661)）中也已经说明。
 
