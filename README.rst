@@ -3,9 +3,14 @@
 
 此repository fork自scrapy-redis，在此基础上，做了如下更改：
 
-* 用法的翻译/代码原理研究/注释翻译。
-* 重写的部分代码，与更新版本的scrapy兼容。
+* 重写部分代码，与更新版本的scrapy兼容。
 * 更清晰的展现分布式例程的实现。
+* 用法的翻译/代码原理研究/注释翻译。
+
+关于新例程'example-project-by-younghz'实现 **原理** 和 **使用** 请参见本repo的wiki，
+或者查看我的这篇文章（http://blog.csdn.net/u012150179/article/details/38091411）。    
+
+最近有人发邮件问我相关问题，在上面指出的文章中都有详细说明。
 
 Redis-based components for Scrapy
 =================================
