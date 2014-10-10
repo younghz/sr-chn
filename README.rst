@@ -7,6 +7,8 @@
 * 更清晰的展现分布式例程的实现。
 * 用法的翻译/代码原理研究/注释翻译。
 
+注意：部分兼容性问题存在于此库中，关于此方面问题可直接查看源代码库[github.com/darkrho/scrapy-redis](github.com/darkrho/scrapy-redis)或者[github.com/younghz/scrapy-redis](github.com/younghz/scrapy-redis)
+
 新例程原理与使用
 ================
 
